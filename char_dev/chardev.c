@@ -3,9 +3,15 @@
 #include <linux/fs.h>
 
 const char* label = "chardev";
+static ssize_t my_read(struct file *f, char __user *u, size_t l, loff_t *o) {
+    printk("Read was called");
+    return 0;
+}
 static int major;
 // What file operations are supported
-static struct file_operations fops = {};
+static struct file_operations fops = {
+    .read = my_read
+};
 
 static int __init my_init(void) {
     // label appears in proc devices
